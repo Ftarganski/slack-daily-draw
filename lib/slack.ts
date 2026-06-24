@@ -42,7 +42,7 @@ export function scheduleResponse(schedule: Schedule, highlightIndex: number): Re
 
 export function rosterResponse(people: Person[]): Response {
   if (people.length === 0) {
-    return reply('Nenhuma pessoa cadastrada. Use `/daily add @fulano @ciclano`.');
+    return reply('Nenhuma pessoa cadastrada. Use `/daily-presenter add @fulano @ciclano`.');
   }
   const lines = people.map((p, i) => `${i + 1}. <@${p.id}>`);
   return reply(`👥 *Roster (${people.length})*\n${lines.join('\n')}`);

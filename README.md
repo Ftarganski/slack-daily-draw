@@ -8,17 +8,17 @@ Slack app que sorteia, por semana, quem **apresenta** (🎤) e quem **conta uma 
 - **Upstash Redis** (REST/HTTP, edge-compatible) → roster + lock semanal.
 - **Vercel** deploy.
 
-## Comandos (slash `/daily`)
+## Comandos (slash `/daily-presenter`)
 
 | Comando | Efeito | Visibilidade |
 |---|---|---|
-| `/daily` | Escala da semana, hoje em destaque (sorteia se inexistente) | canal |
-| `/daily semana` | Escala completa | canal |
-| `/daily add @a @b` | Cadastra pessoas | privado |
-| `/daily remove @a` | Remove pessoas | privado |
-| `/daily lista` | Roster atual | privado |
-| `/daily reset` | Re-sorteia a semana (só `SLACK_ADMIN_IDS`) | canal |
-| `/daily help` | Ajuda | privado |
+| `/daily-presenter` | Escala da semana, hoje em destaque (sorteia se inexistente) | canal |
+| `/daily-presenter semana` | Escala completa | canal |
+| `/daily-presenter add @a @b` | Cadastra pessoas | privado |
+| `/daily-presenter remove @a` | Remove pessoas | privado |
+| `/daily-presenter lista` | Roster atual | privado |
+| `/daily-presenter reset` | Re-sorteia a semana (só `SLACK_ADMIN_IDS`) | canal |
+| `/daily-presenter help` | Ajuda | privado |
 
 ## Segurança
 
@@ -36,8 +36,8 @@ display_information:
   name: Daily Draw
 features:
   slash_commands:
-    - command: /daily
-      url: https://SEU-DEPLOY.vercel.app/api/slack/command
+    - command: /daily-presenter
+      url: https://slack-daily-draw.vercel.app/api/slack/command
       description: Sorteio da daily da semana
       usage_hint: "[semana | add @a | remove @a | lista | reset]"
       should_escape: true
@@ -89,7 +89,7 @@ Depois do primeiro deploy, atualize a URL do slash command no manifest do Slack 
 O Edge runtime já elimina o cold start na prática. Para garantia extra, aponte um monitor **UptimeRobot** (HTTP, intervalo 5 min) para:
 
 ```
-https://SEU-DEPLOY.vercel.app/api/health
+https://slack-daily-draw.vercel.app/api/health
 ```
 
 ## Local

@@ -16,12 +16,12 @@ export const runtime = 'edge';
 
 const help = [
   '*Daily Draw* — comandos:',
-  '`/daily` — escala da semana (sorteia se ainda não houver) com hoje em destaque',
-  '`/daily semana` — escala completa da semana',
-  '`/daily add @a @b` — cadastra pessoas',
-  '`/daily remove @a` — remove pessoas',
-  '`/daily lista` — quem está cadastrado',
-  '`/daily reset` — re-sorteia a semana (apenas admins)',
+  '`/daily-presenter` — escala da semana (sorteia se ainda não houver) com hoje em destaque',
+  '`/daily-presenter semana` — escala completa da semana',
+  '`/daily-presenter add @a @b` — cadastra pessoas',
+  '`/daily-presenter remove @a` — remove pessoas',
+  '`/daily-presenter lista` — quem está cadastrado',
+  '`/daily-presenter reset` — re-sorteia a semana (apenas admins)',
 ].join('\n');
 
 export async function POST(request: Request): Promise<Response> {
@@ -58,7 +58,7 @@ export async function POST(request: Request): Promise<Response> {
     case 'add': {
       const people = parseMentions(args);
       if (people.length === 0) {
-        return reply('Mencione ao menos uma pessoa: `/daily add @fulano`.');
+        return reply('Mencione ao menos uma pessoa: `/daily-presenter add @fulano`.');
       }
       await addToRoster(teamId, people);
       return reply(`✅ Cadastrado: ${people.map((p) => `<@${p.id}>`).join(', ')}`);
@@ -67,7 +67,7 @@ export async function POST(request: Request): Promise<Response> {
     case 'remove': {
       const people = parseMentions(args);
       if (people.length === 0) {
-        return reply('Mencione ao menos uma pessoa: `/daily remove @fulano`.');
+        return reply('Mencione ao menos uma pessoa: `/daily-presenter remove @fulano`.');
       }
       const removed = await removeFromRoster(
         teamId,
@@ -113,7 +113,7 @@ async function showSchedule(
     const roster = await getRoster(teamId);
     if (roster.length < 2) {
       return reply(
-        'Ainda não há sorteio e o roster tem menos de 2 pessoas.\nCadastre com `/daily add @fulano @ciclano`.',
+        'Ainda não há sorteio e o roster tem menos de 2 pessoas.\nCadastre com `/daily-presenter add @fulano @ciclano`.',
       );
     }
     schedule = await saveScheduleIfAbsent(teamId, week, drawWeek(week, roster));
