@@ -1,6 +1,6 @@
 # Daily Draw
 
-Slack app que sorteia, por semana, quem **apresenta** (🎤) e quem **conta uma curiosidade** (💡) na daily de cada dia útil (seg–sex). O sorteio é fixado por semana ISO: chamar de novo dentro da semana retorna a mesma escala.
+Slack app que sorteia, por semana, quem **apresenta** (📣) e quem **conta uma curiosidade** (💡) na daily de cada dia útil (seg–sex). O sorteio é fixado por semana ISO: chamar de novo dentro da semana retorna a mesma escala.
 
 ## Stack
 
@@ -20,7 +20,7 @@ Slack app que sorteia, por semana, quem **apresenta** (🎤) e quem **conta uma 
 | `/daily-presenter reset` | Re-sorteia a semana (só `SLACK_ADMIN_IDS`) | canal |
 | `/daily-presenter help` | Ajuda | privado |
 
-> `/daily-presenter` (sem argumento) equivale a `sortear`. A escala é **fixa por semana ISO**: re-chamar durante a semana retorna o mesmo sorteio. A saída vem em dois blocos — apresentadores (🎤) e curiosidades (💡) — com dia da semana e data `DD/MM`.
+> `/daily-presenter` (sem argumento) equivale a `sortear`. A escala é **fixa por semana ISO**: re-chamar durante a semana retorna o mesmo sorteio. A saída vem em dois blocos — 📣 apresentadores e 💡 curiosidades — com dia da semana e data `DD/MM`.
 
 ## Segurança
 
