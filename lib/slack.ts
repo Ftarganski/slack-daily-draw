@@ -23,7 +23,7 @@ function mention(person: Person): string {
   return `<@${person.id}>`;
 }
 
-const divider = '-------------------------';
+const divider = '━━━━━━━━━━━━━━━━━━━━━━━';
 
 export function scheduleResponse(schedule: Schedule): Response {
   const dates = weekDates(schedule.week);
@@ -37,7 +37,9 @@ export function scheduleResponse(schedule: Schedule): Response {
     ':mega: *Apresentadores da Daily*',
     'Escolhidos para apresentar o board:',
     presenters,
+    '',
     divider,
+    '',
     ':bulb: *Curiosidades da Daily*',
     'Escolhidos para compartilhar curiosidades:',
     curiosities,

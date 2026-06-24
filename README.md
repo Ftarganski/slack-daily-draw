@@ -12,13 +12,15 @@ Slack app que sorteia, por semana, quem **apresenta** (🎤) e quem **conta uma 
 
 | Comando | Efeito | Visibilidade |
 |---|---|---|
-| `/daily-presenter` | Escala da semana, hoje em destaque (sorteia se inexistente) | canal |
-| `/daily-presenter semana` | Escala completa | canal |
+| `/daily-presenter sortear` | Sorteia a escala da semana (ou mostra a já sorteada) | canal |
+| `/daily-presenter semana` | Mostra a escala da semana | canal |
 | `/daily-presenter add @a @b` | Cadastra pessoas | privado |
 | `/daily-presenter remove @a` | Remove pessoas | privado |
 | `/daily-presenter lista` | Roster atual | privado |
 | `/daily-presenter reset` | Re-sorteia a semana (só `SLACK_ADMIN_IDS`) | canal |
 | `/daily-presenter help` | Ajuda | privado |
+
+> `/daily-presenter` (sem argumento) equivale a `sortear`. A escala é **fixa por semana ISO**: re-chamar durante a semana retorna o mesmo sorteio. A saída vem em dois blocos — apresentadores (🎤) e curiosidades (💡) — com dia da semana e data `DD/MM`.
 
 ## Segurança
 
