@@ -1,4 +1,5 @@
 import type { Person, Schedule } from './redis';
+import { formatDayMonth, weekDates, weekdayLabels } from './week';
 
 type ResponseType = 'ephemeral' | 'in_channel';
 
@@ -22,22 +23,27 @@ function mention(person: Person): string {
   return `<@${person.id}>`;
 }
 
-export function scheduleResponse(schedule: Schedule, highlightIndex: number): Response {
-  const lines = schedule.days.map((assignment, i) => {
-    const marker = i === highlightIndex ? '➡️ *' : '';
-    const close = i === highlightIndex ? '*' : '';
-    return `${marker}${close} *${assignment.day}* — 🎤 ${mention(assignment.presenter)}  |  💡 ${mention(assignment.curiosity)}`;
-  });
+const divider = '-------------------------';
 
-  const header =
-    highlightIndex >= 0
-      ? `🗓️ *Daily ${schedule.week}* — hoje em destaque:`
-      : `🗓️ *Daily ${schedule.week}*:`;
+export function scheduleResponse(schedule: Schedule): Response {
+  const dates = weekDates(schedule.week);
+  const lineFor = (i: number, person: Person) =>
+    `- ${weekdayLabels[i]} (${formatDayMonth(dates[i])}): ${mention(person)}`;
 
-  return Response.json({
-    response_type: 'in_channel',
-    text: `${header}\n${lines.join('\n')}\n\n🎤 apresenta  •  💡 curiosidade`,
-  });
+  const presenters = schedule.days.map((a, i) => lineFor(i, a.presenter)).join('\n');
+  const curiosities = schedule.days.map((a, i) => lineFor(i, a.curiosity)).join('\n');
+
+  const text = [
+    ':mega: *Apresentadores da Daily*',
+    'Escolhidos para apresentar o board:',
+    presenters,
+    divider,
+    ':bulb: *Curiosidades da Daily*',
+    'Escolhidos para compartilhar curiosidades:',
+    curiosities,
+  ].join('\n');
+
+  return Response.json({ response_type: 'in_channel', text });
 }
 
 export function rosterResponse(people: Person[]): Response {

@@ -10,14 +10,14 @@ import {
 } from '@/lib/redis';
 import { parseMentions, reply, rosterResponse, scheduleResponse } from '@/lib/slack';
 import { verifySlackRequest } from '@/lib/verify';
-import { currentWeekKey, todayIndex } from '@/lib/week';
+import { currentWeekKey } from '@/lib/week';
 
 export const runtime = 'edge';
 
 const help = [
   '*Daily Draw* — comandos:',
-  '`/daily-presenter` — escala da semana (sorteia se ainda não houver) com hoje em destaque',
-  '`/daily-presenter semana` — escala completa da semana',
+  '`/daily-presenter sortear` — sorteia (ou mostra) a escala da semana',
+  '`/daily-presenter semana` — mostra a escala da semana',
   '`/daily-presenter add @a @b` — cadastra pessoas',
   '`/daily-presenter remove @a` — remove pessoas',
   '`/daily-presenter lista` — quem está cadastrado',
@@ -52,8 +52,9 @@ export async function POST(request: Request): Promise<Response> {
   switch (command) {
     case '':
     case 'hoje':
+    case 'sortear':
     case 'semana':
-      return showSchedule(teamId, week, tz, command !== 'semana');
+      return showSchedule(teamId, week);
 
     case 'add': {
       const people = parseMentions(args);
@@ -90,7 +91,7 @@ export async function POST(request: Request): Promise<Response> {
       }
       const schedule = drawWeek(week, roster);
       await replaceSchedule(teamId, week, schedule);
-      return scheduleResponse(schedule, todayIndex(tz));
+      return scheduleResponse(schedule);
     }
 
     case 'help':
@@ -102,12 +103,7 @@ export async function POST(request: Request): Promise<Response> {
   }
 }
 
-async function showSchedule(
-  teamId: string,
-  week: string,
-  tz: string,
-  highlightToday: boolean,
-): Promise<Response> {
+async function showSchedule(teamId: string, week: string): Promise<Response> {
   let schedule = await getSchedule(teamId, week);
   if (!schedule) {
     const roster = await getRoster(teamId);
@@ -118,5 +114,5 @@ async function showSchedule(
     }
     schedule = await saveScheduleIfAbsent(teamId, week, drawWeek(week, roster));
   }
-  return scheduleResponse(schedule, highlightToday ? todayIndex(tz) : -1);
+  return scheduleResponse(schedule);
 }
